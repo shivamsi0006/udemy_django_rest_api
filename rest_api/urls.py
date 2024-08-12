@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from updates.views import *
 
 urlpatterns = [
@@ -23,6 +23,7 @@ urlpatterns = [
     path('updates/',update_model_detail_view,name='updates'),
     path('updates2/',JsonCBV.as_view(),name='genricview'),
     path('updates3/',SerializedDetailView.as_view(),name='detail_view'),
-    path('updates4/',SerializeListView.as_view(),name="lsitView")
+    path('updates4/',SerializedListView.as_view(),name='serialize'),
+    path('api/updates/',include('updates.api.urls')),
 
 ]
