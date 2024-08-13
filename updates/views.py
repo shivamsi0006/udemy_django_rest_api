@@ -17,6 +17,10 @@ def update_model_detail_view(request):
 
 # json 
 
+def home(request):
+    return HttpResponse("this is home page")
+
+
 class JsonCBV(View):
     def get(self):
         data={

@@ -25,5 +25,6 @@ urlpatterns = [
     path('updates3/',SerializedDetailView.as_view(),name='detail_view'),
     path('updates4/',SerializedListView.as_view(),name='serialize'),
     path('api/updates/',include('updates.api.urls')),
+    path('',home,name='home'),
 
 ]
