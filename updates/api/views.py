@@ -1,8 +1,12 @@
 from updates.models import update
 from django.http import HttpResponse
 from django.views.generic import View
-
 from updates.forms import UpdateModelForm
+from .mixins import CSRFExemptMixin
+
+import json
+
+
 
 class UpdateModelDetailApiView(View):
     def get(self,request,id):
@@ -20,7 +24,7 @@ class UpdateModelDetailApiView(View):
 
 
 
-class UpdtaeModelListApiView(View):
+class UpdtaeModelListApiView(CSRFExemptMixin,View):
 
     def get (self,request):
         obj=update.objects.all()
@@ -28,13 +32,31 @@ class UpdtaeModelListApiView(View):
         return HttpResponse(json_data,content_type='application/json')
     
     def post(self,request):
+        
         form=UpdateModelForm(request.POST)
         if form.is_valid():
             obj=form.save(commit=True)
-            obj_data=obj.serialize()
-            return HttpResponse(obj_data,content_type='application/json')
+            data=obj.serialize()
+            json_data=json.loads(data)
+            
+            
+            if json_data.get("content")==" ":
+                data={
+                    "user":data.get("user"),
+                    "message":"could not update"
+                }
+                return HttpResponse(data,content_type='application/json')
+            return HttpResponse(data,content_type='application/json')
+        return HttpResponse({'message':'message'},content_type='application/json')
 
     def put(self,request):
-        pass
+        form=UpdateModelForm(request.POST)
+        if form.is_valid():
+            obj=form.save(commit=True)
+            data=obj.serialize()
+            return HttpResponse(data,content_type='application/json')
+        return HttpResponse("invalid creditional",content_type='application/json')
+
+
     def delete(self,request):
-        pass
+        pass 
