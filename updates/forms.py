@@ -11,4 +11,5 @@ class UpdateModelForm(forms.ModelForm ):
             'content',
             'image'
         ]
-
+        
+        

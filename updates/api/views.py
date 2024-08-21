@@ -41,13 +41,18 @@ class UpdtaeModelListApiView(CSRFExemptMixin,View):
             
             
             if json_data.get("content")==" ":
+                
+
+                
                 data={
                     "user":data.get("user"),
                     "message":"could not update"
                 }
+            
                 return HttpResponse(data,content_type='application/json')
             return HttpResponse(data,content_type='application/json')
         return HttpResponse({'message':'message'},content_type='application/json')
+    
 
     def put(self,request):
         form=UpdateModelForm(request.POST)
